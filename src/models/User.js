@@ -25,15 +25,12 @@ Users.init({
     },
     FirstName: {
         type: DataTypes.STRING,
-        allowNull: false
     },
     LastName: {
         type: DataTypes.STRING,
-        allowNull: false
     },
     Role_Id: {
         type: DataTypes.INTEGER,
-
         references: {
             model: Roles,
             key: 'Role_Id'

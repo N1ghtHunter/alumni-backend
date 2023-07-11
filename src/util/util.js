@@ -6,13 +6,13 @@ const ExperienceSkills = require('../models/Experience_Skills');
 const Experience = require('../models/Experience');
 
 
-const syncTables = async () => {
-    await User.sync();
-    await Role.sync();
-    await Skill.sync();
-    await Users_Skills.sync();
-    await Experience.sync();
-    await ExperienceSkills.sync();
+const syncTables = async (FORCE = false) => {
+    await Role.sync({ force: FORCE });
+    await User.sync({ force: FORCE });
+    await Skill.sync({ force: FORCE });
+    await Users_Skills.sync({ force: FORCE });
+    await Experience.sync({ force: FORCE });
+    await ExperienceSkills.sync({ force: FORCE });
 }
 
 module.exports = {

@@ -1,27 +1,34 @@
 const { Sequelize } = require('sequelize');
 const config = require('./config');
-
-module.exports = new Sequelize(
-    config.DB_NAME,
-    config.DB_USER_NAME,
-    config.DB_PASSWORD,
-    {
-        dialect: 'mssql',
-        pool: {
-            max: 5,
-            min: 0,
-            acquire: 120000,
-            idle: 120000
-        },
-        dialectOptions: {
-            ecrypt: true,
-            options: {
-                requestTimeout: 120000
+let sequelize = null;
+if (config.NODE_ENV !== "dev") {
+    sequelize = new Sequelize(
+        config.DB_NAME,
+        config.DB_USER_NAME,
+        config.DB_PASSWORD,
+        {
+            logging: false,
+            host: config.DB_HOST,
+            dialect: 'mysql',
+            dialectOptions: {
+                ssl: {
+                    require: true,
+                }
             }
-        },
-        host: config.DB_HOST,
-        port: config.DB_PORT,
-        logging: false
-    },
-);
+        }
+    );
+}
+else {
+    sequelize = new Sequelize(
+        config.DB_NAME,
+        config.DB_USER_NAME,
+        config.DB_PASSWORD,
+        {
+            logging: false,
+            host: config.DB_HOST,
+            dialect: 'mysql',
+        }
+    );
+}
 
+module.exports = sequelize;
