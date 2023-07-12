@@ -1,10 +1,8 @@
-const app = require('../../app');
 const role_util = require('../util/role_util');
 const router = require('express').Router();
 
 router.post('/addRole', async (req, res, next) => {
-    const Role_Name = req.body.roleName;
-    const Role_Description = req.body.roleDescription;
+    const { Role_Name, Role_Description } = req.body;
     if (!Role_Name || !Role_Description)
         return res.status(400).send('Please provide a role name and description.');
     try {

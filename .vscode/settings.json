@@ -1,0 +1,4 @@
+{
+    "appService.defaultWebAppToDeploy": "undefined/subscriptions/96c051d2-2d73-433c-b839-bac072aefcce/resourceGroups/appsvc_linux_centralus/providers/Microsoft.Web/sites/alumni-system-backend",
+    "appService.deploySubpath": "."
+}
