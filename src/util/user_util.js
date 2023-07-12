@@ -154,6 +154,21 @@ const uploadAlumniPicture = async (User_Id, Img) => {
     }
 }
 
+const updateAbout = async (User_Id, About) => {
+    try {
+        await User.update({
+            About: About
+        }, {
+            where: {
+                User_Id: User_Id
+            }
+        });
+    } catch (err) {
+        throw err;
+    }
+}
+
+
 module.exports = {
     addAlumni,
     getAlumni,
@@ -167,4 +182,5 @@ module.exports = {
     addHR,
     getHR,
     uploadAlumniPicture,
+    updateAbout,
 }

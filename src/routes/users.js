@@ -1,6 +1,6 @@
 const router = require('express').Router();
 const user_util = require('../util/user_util');
-const { isAlumni, isStudent, isHR } = require('../util/Auth');
+const { isAlumni, isStudent, isHR, isAuthorized } = require('../util/Auth');
 router.post('/alumni_signup', async (req, res, next) => {
     try {
         const { UserName, Password, Email, National_Id } = req.body;
@@ -63,7 +63,7 @@ router.get('/alumni_logout', isAlumni, (req, res, next) => {
     }
 });
 
-router.put('/update_phone', isAlumni, async (req, res, next) => {
+router.put('/update_phone', isAuthorized, async (req, res, next) => {
     try {
         const { User_Id } = req.session;
         const { Phone } = req.body;
@@ -316,6 +316,21 @@ router.post('/upload_alumni_picture', isAlumni, async (req, res, next) => {
         console.log(pictureName);
         await user_util.uploadAlumniPicture(User_Id, pictureName);
         res.status(200).send({ success: true, message: 'Picture uploaded successfully.' });
+    } catch (err) {
+        next(err);
+    }
+});
+
+router.put('/update_about', isAuthorized, async (req, res, next) => {
+    try {
+        const { User_Id } = req.session;
+        const { About } = req.body;
+        if (!About) {
+            res.status(400).send({ success: false, message: 'Missing credentials.' });
+            return;
+        }
+        await user_util.updateAbout(User_Id, About);
+        res.status(200).send({ success: true, message: 'About updated successfully.' });
     } catch (err) {
         next(err);
     }

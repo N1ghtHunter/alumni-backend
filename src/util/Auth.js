@@ -32,9 +32,18 @@ const isHR = (req, res, next) => {
     }
 }
 
+const isAuthorized = (req, res, next) => {
+    if (req.session.IsLoggedIn && req.session.User_Id) {
+        next();
+    } else {
+        res.status(401).send({ success: false, message: 'Unauthorized.' });
+    }
+}
+
 module.exports = {
     isAlumni,
     isAdmin,
     isStudent,
-    isHR
+    isHR,
+    isAuthorized
 }
