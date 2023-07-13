@@ -336,9 +336,46 @@ router.put('/update_about', isAuthorized, async (req, res, next) => {
     }
 });
 
+router.put('/update_country', isAuthorized, async (req, res, next) => {
+    try {
+        const { User_Id } = req.session;
+        const { Country } = req.body;
+        if (!Country) {
+            res.status(400).send({ success: false, message: 'Missing credentials.' });
+            return;
+        }
+        await user_util.updateCountry(User_Id, Country);
+        res.status(200).send({ success: true, message: 'Country updated successfully.' });
+    } catch (err) {
+        next(err);
+    }
+});
 
 
-
+router.put('/update_social_urls', isAuthorized, async (req, res, next) => {
+    try {
+        const { User_Id } = req.session;
+        const { Behance_URL, LinkedIn_URL, GitHub_URL } = req.body;
+        let data = {};
+        if (Behance_URL) {
+            data.Behance_URL = Behance_URL;
+        }
+        if (LinkedIn_URL) {
+            data.LinkedIn_URL = LinkedIn_URL;
+        }
+        if (GitHub_URL) {
+            data.GitHub_URL = GitHub_URL;
+        }
+        if (Object.keys(data).length === 0) {
+            res.status(400).send({ success: false, message: 'Missing credentials.' });
+            return;
+        }
+        await user_util.updateSocialUrls(User_Id, data);
+        res.status(200).send({ success: true, message: 'Social URLs updated successfully.' });
+    } catch (err) {
+        next(err);
+    }
+});
 
 
 module.exports = router;

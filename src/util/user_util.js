@@ -60,19 +60,19 @@ const updatePhone = async (User_Id, Phone) => {
     }
 }
 
-//check email existance
+//check email existence
 async function checkEmailExists(email) {
     const user = await User.findOne({ where: { email } });
     return user !== null;
 }
 
-// check National Id existance
+// check National Id existence
 async function checkNationalIdExists(National_Id) {
     const user = await User.findOne({ where: { National_Id } });
     return user !== null;
 }
 
-// UserName existance
+// UserName existence
 async function checkUserNameExists(UserName) {
     const user = await User.findOne({ where: { UserName } });
     return user !== null;
@@ -168,6 +168,47 @@ const updateAbout = async (User_Id, About) => {
     }
 }
 
+const updateCountry = async (User_Id, Country) => {
+    try {
+        await User.update({
+            Country: Country
+        }, {
+            where: {
+                User_Id: User_Id
+            }
+        });
+    } catch (err) {
+        throw err;
+    }
+}
+
+const updateSocialUrls = async (User_Id, socialUrls = {
+    Behance_URL: "",
+    LinkedIn_URL: "",
+    GitHub_URL: ""
+}) => {
+    let defaultObject = {
+        Behance_URL: "",
+        LinkedIn_URL: "",
+        GitHub_URL: ""
+    }
+    // merge the two objects
+    let merged = { ...defaultObject, ...socialUrls };
+    try {
+        await User.update({
+            Behance_URL: merged.Behance_URL,
+            LinkedIn_URL: merged.LinkedIn_URL,
+            GitHub_URL: merged.GitHub_URL
+        }, {
+            where: {
+                User_Id: User_Id
+            }
+        });
+    } catch (err) {
+        throw err;
+    }
+}
+
 
 module.exports = {
     addAlumni,
@@ -183,4 +224,6 @@ module.exports = {
     getHR,
     uploadAlumniPicture,
     updateAbout,
+    updateCountry,
+    updateSocialUrls,
 }
